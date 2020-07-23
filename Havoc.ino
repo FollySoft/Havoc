@@ -1,8 +1,12 @@
 #include "Serial.h"
 
 //  "shindig" - A game by jwest.
+//
 //	Mercy is the mark of great men.  
-//	I guess we're all right.
+//	I guess we're just good men.
+//
+//	...well, we're alright.
+//
 //  JJ
 
 /********************
@@ -10,9 +14,22 @@
 *	- Brute Force
 *	- Scuffle
 *	- Frenzy
+*	- (Challenge) To Arms
 ********************/
 
 int gameState = 0;
+
+enum gameWeapons
+{
+	SWORD,		// Face 0
+	AXE,		// Faces 0 & 1
+	CHAKRAM		// Faces 0, 2, & 4
+};
+int gameWeapon = 0;
+
+int swordFaces[1] = {0};
+int axeFaces[2] = {0, 1};
+int chakramFaces[3] = {0, 2, 4};
 
 int damage = 0;
 bool damageTaken = false;
@@ -22,13 +39,15 @@ Timer healthFlashTimer;
 bool healthLEDOn = false;
 int healthLEDSpeed;
 
-Color knifeColor = makeColorHSB(210, 20, 255);
+Color bladeColor = makeColorHSB(210, 20, 220);
 
 enum Flags
 {
 	EMPTY,
-	KNIFE
+	BLADE
 };
+
+ServicePortSerial sp;
 
 void setup()
 {		
@@ -41,74 +60,71 @@ void loop()
 	{
 		/********* Setup State *********/
 		case 0:
-			FOREACH_FACE(f)
+			sp.println("STATE 0");
+			// Display current weapon
+			switch (gameWeapon)
 			{
-				if (f != 0)
-				{
-					setColorOnFace(OFF, f);
-				}
-				else
-				{
-					setValueSentOnFace(KNIFE, f);
-					setColorOnFace(knifeColor, f);
-				}
+				case SWORD:
+					weaponDisplay(swordFaces, 1);					
+				break;
+				case AXE:
+					weaponDisplay(axeFaces, 2);
+				break;
+				case CHAKRAM:
+					weaponDisplay(chakramFaces, 3);
+				break;
 			}
-			if (isAlone())
+			// Cycle through weapons
+			if (buttonSingleClicked())
 			{
-				gameState = 1;
+				gameWeapon++;
+				if (gameWeapon > 2) { gameWeapon = 0; }
+			}
+			// Start game
+			if (buttonDoubleClicked())
+			{
+				if (isAlone())
+				{
+					gameState = 1;
+				}
 			}
 		break;
 		/********* Play State *********/
 		case 1:
-			// Listen for knife signal
-			FOREACH_FACE(f)
+			// Listen for blade signal
+			switch (gameWeapon)
 			{
-				if (f != 0)
-				{
-					// Take damage ONCE when knife face detected.
-					if (getLastValueReceivedOnFace(f) == KNIFE && 
-						!isValueReceivedOnFaceExpired(f) &&
-						damagedFace[f-1] == false)
+				case SWORD:
+					weaponDetect(swordFaces, 1);
+					if (damage > 0)
 					{
-						damagedFace[f - 1] = true;
-						damage++;
+						healthFlash(damage, swordFaces, 1);
 					}
-					//  Allow face to be damaged again after knife expires.
-					if (damagedFace[f - 1] == true &&
-						isValueReceivedOnFaceExpired(f))
+				break;
+				
+				case AXE:
+					weaponDetect(axeFaces, 2);
+					if (damage > 0)
 					{
-						damagedFace[f - 1] = false;
+						healthFlash(damage, axeFaces, 2);
 					}
-				}
+				break;
 
-				/*
-				if (f != 0)
-				{
-					// Add to damage counter if recently stabbed.
-					if (getLastValueReceivedOnFace(f) == KNIFE && 
-						!isValueReceivedOnFaceExpired(f) &&
-						!damageTaken)
+				case CHAKRAM:
+					weaponDetect(chakramFaces, 3);
+					if (damage > 0)
 					{
-						damageTaken = true;
-						damage++;
+						healthFlash(damage, chakramFaces, 3);
 					}
-					// Allow for additional stabs if face empty for 200ms.
-					else if (getLastValueReceivedOnFace(f) == KNIFE &&
-							isValueReceivedOnFaceExpired(f) &&
-							damageTaken)
-					{
-						damageTaken = false;
-					}
-				}
-				*/
+				break;
 			}
-
-			if (damage > 0)
+			
+			/*if (damage > 0)
 			{
 				healthFlash(damage);
-			}
+			}*/
 				
-			// Jump to Dead State
+			//Jump to Dead State
 			if (damage == 3)
 			{
 				setColor(RED);
@@ -133,7 +149,80 @@ void loop()
 	}
 }
 
-void healthFlash(int damage)
+void weaponDisplay(int weaponFaces[], int size)
+{
+	byte currentBrightness = max(225, random(255));
+	byte currentHue = map(max(20, random(40)), 0, 360, 0, 255);
+	
+	FOREACH_FACE(f)
+	{
+		for (int i = 0; i < size; i++)
+		{
+			// If face matches face in weapon array, set blade
+			if ((f - 1) == weaponFaces[i])
+			{
+				setValueSentOnFace(BLADE, f);
+				setColorOnFace(bladeColor, f);
+				goto cont;
+			}
+			else
+			{
+				setValueSentOnFace(EMPTY, f);
+				setColorOnFace(makeColorHSB(currentHue, 255, currentBrightness), f);
+				//setColorOnFace(OFF, f);
+			}
+		}
+		cont:; // Continue to next face in loop
+	}
+}
+
+
+void weaponDetect(int weaponFaces[], int size)
+{
+	FOREACH_FACE(f)
+	{
+		if (!compareFaces(f, weaponFaces, size))
+		{
+			// Take damage ONCE when blade face detected.
+			if (getLastValueReceivedOnFace(f) == BLADE && 
+				!isValueReceivedOnFaceExpired(f) &&
+				damagedFace[f - 1] == false)
+			{
+				damagedFace[f - 1] = true;
+				setColorOnFace(RED, f);
+				damage++;
+			}
+			//  Allow face to be damaged again after blade expires.
+			if (damagedFace[f - 1] == true &&
+				isValueReceivedOnFaceExpired(f))
+			{
+				damagedFace[f - 1] = false;
+			}
+		}
+		else
+		{
+			continue;
+		}
+	}
+}
+
+
+bool compareFaces(int blinkFace, int weaponFaces[], int size)
+{
+	bool matchFound = false;
+	for (int i = 0; i < size; i++)
+	{
+		if ((blinkFace - 1) == weaponFaces[i])
+		{
+			matchFound = true;
+			return matchFound;
+		}
+		else { continue; }
+	}
+	if (matchFound == false) { return matchFound; }
+}
+
+void healthFlash(int damage, int weaponFaces[], int size)
 {
 	switch (damage)
 	{
@@ -162,17 +251,23 @@ void healthFlash(int damage)
 		{ 
 			FOREACH_FACE(f)
 			{
-				if (f != 0) { setColorOnFace(RED, f); }
+				if (!compareFaces(f, weaponFaces, size)) 
+				{ 
+					setColorOnFace(RED, f); 
+				}
 			}
 		}
 		else
 		{
 			FOREACH_FACE(f)
 			{
-				if (f != 0) { setColorOnFace(OFF, f); }
+				if (!compareFaces(f, weaponFaces, size))  
+				{ 
+					setColorOnFace(OFF, f); 
+				}
 			}
 		}
 		healthFlashTimer.set(healthLEDSpeed); 
-	} 
+	}	
 
 }
