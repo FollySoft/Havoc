@@ -1,6 +1,6 @@
 #include "Serial.h"
 
-//  "shindig" - A game by jwest.
+//  "Havoc" - A game by jwest.
 //
 //	Mercy is the mark of great men.  
 //	I guess we're just good men.
@@ -15,6 +15,7 @@
 *	- Scuffle
 *	- Frenzy
 *	- (Challenge) To Arms
+*	- Havoc
 ********************/
 
 int gameState = 0;
