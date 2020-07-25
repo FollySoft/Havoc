@@ -9,15 +9,6 @@
 //
 //  JJ
 
-/********************
-* Name Ideas:
-*	- Brute Force
-*	- Scuffle
-*	- Frenzy
-*	- (Challenge) To Arms
-*	- Havoc
-********************/
-
 int gameState = 0;
 
 enum gameWeapons
@@ -40,7 +31,7 @@ Timer healthFlashTimer;
 bool healthLEDOn = false;
 int healthLEDSpeed;
 
-Color bladeColor = makeColorHSB(210, 20, 220);
+Color bladeColor = makeColorHSB(180, 0, 225);
 
 enum Flags
 {
@@ -59,7 +50,7 @@ void loop()
 {		
 	switch (gameState)
 	{
-		/********* Setup State *********/
+		/********* Weapon Select/Forge State *********/
 		case 0:
 			sp.println("STATE 0");
 			// Display current weapon
@@ -152,8 +143,9 @@ void loop()
 
 void weaponDisplay(int weaponFaces[], int size)
 {
-	byte currentBrightness = max(225, random(255));
-	byte currentHue = map(max(20, random(40)), 0, 360, 0, 255);
+	byte currentBrightness = max(200, random(225));
+	//byte currentBrightness = 255;
+	byte currentHue = map(max(40, random(50)), 0, 360, 0, 255);
 	
 	FOREACH_FACE(f)
 	{
