@@ -81,8 +81,24 @@ void loop()
 				}
 			}
 		break;
-		/********* Play State *********/
+		
+		/********* Transition from Forge to Play State *********/
 		case 1:
+			switch (gameWeapon)
+			{
+				case SWORD:
+				break;
+				
+				case AXE:
+				break;
+
+				case CHAKRAM:
+				break;
+			}
+		break;
+		
+		/********* Play State *********/
+		case 2:
 			// Listen for blade signal
 			switch (gameWeapon)
 			{
@@ -125,7 +141,7 @@ void loop()
 			}
 		break;
 		/********* Dead State *********/
-		case 2:
+		case 3:
 			// Reset Game
 			if (buttonDoubleClicked())
 			{
@@ -169,6 +185,10 @@ void weaponDisplay(int weaponFaces[], int size)
 	}
 }
 
+void brandishWeapon(int weaponFaces[], int size)
+{
+	
+}
 
 void weaponDetect(int weaponFaces[], int size)
 {
