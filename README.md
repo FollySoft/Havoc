@@ -9,7 +9,13 @@
 Havoc is a physical action game for 2 or more players.  Players choose between 3 weapons and fight to the death.  Last knight standing is the winner!
 
 #### SETUP
-Distribute 1 Havoc Blink to each player, representing that player's "Knight".  Havoc tiles start in the "Forge" state, indicated by a flickering fire animation.  Here, players can press the button to cycle between 3 weapons: sword, axe, and chakram.  Players select a weapon for their knight by double clicking, indicating that they are ready for battle.
+Distribute 1 Havoc Blink to each player, representing that player's "Knight".  Havoc tiles start in the "Forge" state, indicated by a flickering fire animation.  Here, players can press the button to cycle between 3 weapons:
+
+- Sword   - A single blade, for players who want more of a challenge.
+- Axe     - Double-sided blade.  Best for players joining the battle for the first time.
+- Chakram - Three blades in a circle, for players who want more pretection from harm.
+
+Players select a weapon for their knight by double clicking, indicating that they are ready for battle.
 
 ***Insert image of weapon faces here.***
 
