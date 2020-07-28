@@ -17,6 +17,7 @@ enum gameWeapons
 	AXE,		// Faces 0 & 1
 	CHAKRAM		// Faces 0, 2, & 4
 };
+
 int gameWeapon = 0;
 
 int swordFaces[1] = {0};
@@ -32,6 +33,9 @@ bool healthLEDOn = false;
 int healthLEDSpeed;
 
 Color bladeColor = makeColorHSB(180, 0, 225);
+int brandishBrightness = 255;
+#define PULSE_LENGTH 2000
+
 
 enum Flags
 {
@@ -84,16 +88,24 @@ void loop()
 		
 		/********* Transition from Forge to Play State *********/
 		case 1:
+			setColor(OFF);
 			switch (gameWeapon)
 			{
 				case SWORD:
+					brandishWeapon(swordFaces, 1);			
 				break;
 				
 				case AXE:
+					brandishWeapon(axeFaces, 2);			
 				break;
 
 				case CHAKRAM:
+					brandishWeapon(chakramFaces, 3);			
 				break;
+			}
+			if (brandishBrightness == 225)
+			{
+				gameState = 2;
 			}
 		break;
 		
@@ -127,11 +139,6 @@ void loop()
 				break;
 			}
 			
-			/*if (damage > 0)
-			{
-				healthFlash(damage);
-			}*/
-				
 			//Jump to Dead State
 			if (damage == 3)
 			{
@@ -170,8 +177,13 @@ void weaponDisplay(int weaponFaces[], int size)
 			// If face matches face in weapon array, set blade
 			if ((f - 1) == weaponFaces[i])
 			{
+				// Sine wave light pulse
+				int pulseProgress = millis() % PULSE_LENGTH;
+				byte pulseMapped = map(pulseProgress, 0, PULSE_LENGTH, 0, 225);
+				byte dimness = sin8_C(pulseMapped);
+
 				setValueSentOnFace(BLADE, f);
-				setColorOnFace(bladeColor, f);
+				setColorOnFace(dim(bladeColor, dimness), f);
 				goto cont;
 			}
 			else
@@ -185,9 +197,24 @@ void weaponDisplay(int weaponFaces[], int size)
 	}
 }
 
+void sparksDisplay(int face)
+{
+	// Set face and adjacent faces(?) to orange and back again.	
+}
+
 void brandishWeapon(int weaponFaces[], int size)
 {
-	
+	FOREACH_FACE(f)
+	{
+		if (compareFaces(f, weaponFaces, size)
+		{
+			if (millis() % 3 == 0)
+			{
+				brandishBrightness -= 5;
+				setColorOnFace(dim(bladeColor, brandishBrightness), f);
+			}
+		}
+	}
 }
 
 void weaponDetect(int weaponFaces[], int size)
@@ -214,6 +241,8 @@ void weaponDetect(int weaponFaces[], int size)
 		}
 		else
 		{
+			// Display Sparks if blade hits blade
+			sparksDisplay(f);
 			continue;
 		}
 	}
@@ -237,25 +266,8 @@ bool compareFaces(int blinkFace, int weaponFaces[], int size)
 
 void healthFlash(int damage, int weaponFaces[], int size)
 {
-	switch (damage)
-	{
-		case 0:
-			// Do nothing.
-		break;
-
-		case 1:
-			// Taken 1 hit.
-			healthLEDSpeed = 800; // Flash every 800 ms
-		break;
-		
-		case 2:
-			// Taken 2 Hits
-			healthLEDSpeed = 400; // Flash every 400 ms
-		break;
-		
-		default:
-		break;
-	}
+	if (damage == 1) { healthLEDSpeed = 800; }		// Flash every 800 ms
+	else if (damage == 2) { healthLEDSpeed = 400;}	// Flash every 400 ms
 	
 	if (healthFlashTimer.isExpired()) 
 	{
