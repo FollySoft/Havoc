@@ -56,7 +56,7 @@ void loop()
 	{
 		/********* Weapon Select/Forge State *********/
 		case 0:
-			sp.println("STATE 0");
+			setValueSentOnAllFaces(EMPTY);
 			// Display current weapon
 			switch (gameWeapon)
 			{
@@ -144,7 +144,7 @@ void loop()
 			{
 				setColor(RED);
 				buttonDoubleClicked();
-				gameState = 2;
+				gameState = 3;
 			}
 		break;
 		/********* Dead State *********/
@@ -154,6 +154,7 @@ void loop()
 			{
 				damage = 0;
 				damageTaken = false;
+				brandishBrightness = 255;
 				FOREACH_FACE(f)
 				{
 					setColorOnFace(OFF,f);
@@ -182,13 +183,11 @@ void weaponDisplay(int weaponFaces[], int size)
 				byte pulseMapped = map(pulseProgress, 0, PULSE_LENGTH, 0, 225);
 				byte dimness = sin8_C(pulseMapped);
 
-				setValueSentOnFace(BLADE, f);
 				setColorOnFace(dim(bladeColor, dimness), f);
 				goto cont;
 			}
 			else
 			{
-				setValueSentOnFace(EMPTY, f);
 				setColorOnFace(makeColorHSB(currentHue, 255, currentBrightness), f);
 				//setColorOnFace(OFF, f);
 			}
@@ -206,7 +205,7 @@ void brandishWeapon(int weaponFaces[], int size)
 {
 	FOREACH_FACE(f)
 	{
-		if (compareFaces(f, weaponFaces, size)
+		if (compareFaces(f, weaponFaces, size))
 		{
 			if (millis() % 3 == 0)
 			{
@@ -223,6 +222,7 @@ void weaponDetect(int weaponFaces[], int size)
 	{
 		if (!compareFaces(f, weaponFaces, size))
 		{
+			setValueSentOnFace(EMPTY, f);
 			// Take damage ONCE when blade face detected.
 			if (getLastValueReceivedOnFace(f) == BLADE && 
 				!isValueReceivedOnFaceExpired(f) &&
@@ -241,8 +241,7 @@ void weaponDetect(int weaponFaces[], int size)
 		}
 		else
 		{
-			// Display Sparks if blade hits blade
-			sparksDisplay(f);
+			setValueSentOnFace(BLADE, f);
 			continue;
 		}
 	}
