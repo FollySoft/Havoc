@@ -5,7 +5,7 @@
 |------------------|:-----------------:|:--------------------:|-----------------:|
 | 2 +           | 2 +             |  ~ 2-5 minutes    | 12 & Up          |
 
-Havoc is a physical action game for 2 or more players.  Players choose between 3 weapons and fight to the death.  Last knight standing is the winner!
+Havoc is a physical action game for 2 or more players, based (loosely) on [Egg Jarping](https://en.wikipedia.org/wiki/Egg_tapping).  Players choose between 3 weapons and fight to the death.  Last knight standing is the winner!
 
 #### SETUP
 Distribute 1 Havoc Blink to each player, representing that player's "Knight".  Havoc tiles start in the "Forge" state, indicated by a flickering fire animation.  Here, players can press the button to cycle between 3 weapons:
