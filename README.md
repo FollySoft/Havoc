@@ -14,11 +14,11 @@ Distribute 1 Havoc Blink to each player, representing that player's "Knight".  H
 - **Axe** - Double-sided blade.  Best for knights joining the battle for the first time.
 - **Chakram** - Three blades in a circle, for knights who want more pretection from harm.
 
-Players select a weapon for their knight by double clicking, indicating that they are ready for battle.
-
 <p align="center">
   <img src="./weapons.png"/>
 </p>
+
+Players select a weapon for their knight by double clicking, indicating that they are ready for battle.
 
 ### GAMEPLAY
 When all players have selected their weapons, players place their tiles on a table, resting at least one finger on top to allow free movement.  Players then begin the game by counting down from 3 and yelling ***"CHARGE!"*** (or a battlecry of their choosing).
