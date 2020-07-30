@@ -16,7 +16,9 @@ Distribute 1 Havoc Blink to each player, representing that player's "Knight".  H
 
 Players select a weapon for their knight by double clicking, indicating that they are ready for battle.
 
-***Insert image of weapon faces here.***
+<p align="center">
+  <img src="./weapons.png"/>
+</p>
 
 ### GAMEPLAY
 When all players have selected their weapons, players place their tiles on a table, resting at least one finger on top to allow free movement.  Players then begin the game by counting down from 3 and yelling ***"CHARGE!"*** (or a battlecry of their choosing).
