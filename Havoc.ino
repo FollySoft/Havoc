@@ -178,12 +178,17 @@ void weaponDisplay(int weaponFaces[], int size)
 			// If face matches face in weapon array, set blade
 			if ((f - 1) == weaponFaces[i])
 			{
+				/*
 				// Sine wave light pulse
 				int pulseProgress = millis() % PULSE_LENGTH;
 				byte pulseMapped = map(pulseProgress, 0, PULSE_LENGTH, 0, 225);
-				byte dimness = sin8_C(pulseMapped);
+				//byte dimness = sin8_C(pulseMapped);
+				byte original_dimness = sin8_C(pulseMapped);
 
-				setColorOnFace(dim(bladeColor, dimness), f);
+				byte new_dimness = (byte)(((int)original_dimness * (int)105 / (int)255) + (int)150);
+				setColorOnFace(dim(bladeColor, new_dimness), f);
+				*/
+				setColorOnFace(bladeColor, f);
 				goto cont;
 			}
 			else
