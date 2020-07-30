@@ -19,9 +19,9 @@ Players select a weapon for their knight by double clicking, indicating that the
 ***Insert image of weapon faces here.***
 
 ### GAMEPLAY
-When all players have selected their weapons, players place their tiles on a table, resting at least one finger on top to allow movement.  Players then begin the game by counting down and yelling ***"CHARGE!"*** (or a battlecry of their choosing).
+When all players have selected their weapons, players place their tiles on a table, resting at least one finger on top to allow free movement.  Players then begin the game by counting down from 3 and yelling ***"CHARGE!"*** (or a battlecry of their choosing).
 
-Players move their blink around on the table, trying to stab/slash/cleave the other players blinks.  If a "blade" face makes contact with another blinks "empty" face, the receiving blink takes damage.  When a blink recieves 3 hits, it is pronounced "dead" (indicated by turning totally red) and that player is knocked out of the round.
+Players move their blink around on the table, trying to stab/slash/cleave the other players blinks.  If a "blade" face makes contact with another blinks "empty" face, the receiving blink takes damage.  When a blink recieves 3 hits, it is pronounced "dead" (indicated by turning fully red) and that knight is knocked out of the round.
 
 ### WIN CONDITION
 The winner of the round is the last player to keep their knight alive.
