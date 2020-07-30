@@ -25,5 +25,10 @@ When all players have selected their weapons, players place their tiles on a tab
 
 Players move their blink around on the table, trying to stab/slash/cleave the other players blinks.  If a "blade" face makes contact with another blinks "empty" face, the receiving blink takes damage.  When a blink recieves 3 hits, it is pronounced "dead" (indicated by turning fully red) and that knight is knocked out of the round.
 
+<p align="center">
+  <img src="./blink_movement.png"/>
+  <img src="./blink_attack.png"/>
+</p>
+
 ### WIN CONDITION
 The winner of the round is the last player to keep their knight alive.
