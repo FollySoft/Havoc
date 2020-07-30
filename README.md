@@ -1,4 +1,4 @@
-# Havoc - A game for Blinks, by Move38.
+# Havoc (_WIP_) - A game for Blinks, by Move38.
 
 ### RULES
 | Number of Blinks | Number of Players | Duration of Gameplay | Recommended Ages |
