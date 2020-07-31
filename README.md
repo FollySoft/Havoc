@@ -15,7 +15,7 @@ Distribute 1 Havoc Blink to each player, representing that player's "Knight".  H
 - **Chakram** - Three blades in a circle, for knights who want more pretection from harm.
 
 <p align="center">
-  <img src="./weapons.png"/>
+  <img src="./images/weapons.png"/>
 </p>
 
 Players select a weapon for their knight by double clicking, indicating that they are ready for battle.
@@ -26,8 +26,8 @@ When all players have selected their weapons, players place their tiles on a tab
 Players move their blink around on the table, trying to stab/slash/cleave the other players blinks.  If a "blade" face makes contact with another blinks "empty" face, the receiving blink takes damage.  When a blink recieves 3 hits, it is pronounced "dead" (indicated by turning fully red) and that knight is knocked out of the round.
 
 <p align="center">
-  <img src="./blink_movement.png"/>
-  <img src="./blink_attack.png"/>
+  <img src="./images/blink_movement.png"/>
+  <img src="./images/blink_attack.png"/>
 </p>
 
 ### WIN CONDITION
